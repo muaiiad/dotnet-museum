@@ -8,7 +8,9 @@ public class Artifact
     public required string Origin { get; set; }
     public required string Period { get; set; }
     public required string Civilization { get; set; }
-    public required string GalleryId {get;set;}
+    
+    public required int GalleryId { get; set; }
+    public required Gallery Gallery { get; set; }
     
     
 }
