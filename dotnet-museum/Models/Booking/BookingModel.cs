@@ -19,6 +19,7 @@ public class BookingModel
     
     public int? TourismCompanyId { get; set; }
     public Company? TourismCompany { get; set; }
+    
 }
 
 public enum ReservationType
