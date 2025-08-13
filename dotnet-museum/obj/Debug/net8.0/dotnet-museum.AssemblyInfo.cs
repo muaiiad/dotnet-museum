@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("dotnet-museum")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3e60a4ebe4ba93d419fecffd66f7ad683f19e8cf")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+260cc425e03d1b3d921193caf61f7fa5dd17b8eb")]
 [assembly: System.Reflection.AssemblyProductAttribute("dotnet-museum")]
 [assembly: System.Reflection.AssemblyTitleAttribute("dotnet-museum")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
