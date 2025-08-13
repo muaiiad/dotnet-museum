@@ -7,6 +7,6 @@ public class Employee
     public required string LastName { get; set; }
     public required string Title { get; set; }
     public required string Department { get; set; }
-    public required float Salary { get; set; }
+    public required decimal Salary { get; set; }
     
 }
