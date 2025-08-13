@@ -1,4 +1,6 @@
-﻿namespace dotnet_museum.Models;
+﻿using System.Collections.Generic;
+
+namespace dotnet_museum.Models;
 
 public class Gallery
 {

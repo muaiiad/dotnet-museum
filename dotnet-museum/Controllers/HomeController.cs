@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using dotnet_museum.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace dotnet_museum.Controllers
 {

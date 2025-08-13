@@ -1,4 +1,5 @@
-﻿using dotnet_museum.Models.MuseumEvents;
+﻿using System;
+using dotnet_museum.Models.MuseumEvents;
 using dotnet_museum.Models.TourismCompany;
 
 namespace dotnet_museum.Models.Booking;

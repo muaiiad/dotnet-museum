@@ -1,4 +1,6 @@
-﻿using dotnet_museum.Models.Booking;
+﻿using System;
+using System.Collections.Generic;
+using dotnet_museum.Models.Booking;
 
 namespace dotnet_museum.Models.MuseumEvents;
 

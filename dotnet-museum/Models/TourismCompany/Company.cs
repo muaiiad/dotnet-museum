@@ -1,4 +1,5 @@
-﻿using dotnet_museum.Models.Booking;
+﻿using System.Collections.Generic;
+using dotnet_museum.Models.Booking;
 using Microsoft.AspNetCore.Identity;
 
 namespace dotnet_museum.Models.TourismCompany;

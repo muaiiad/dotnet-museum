@@ -1,4 +1,6 @@
-﻿namespace dotnet_museum.Models.MuseumEvents;
+﻿using System.Collections.Generic;
+
+namespace dotnet_museum.Models.MuseumEvents;
 
 public class Category
 {
