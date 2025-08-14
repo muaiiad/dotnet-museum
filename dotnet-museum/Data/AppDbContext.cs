@@ -23,6 +23,66 @@ public class AppDbContext : DbContext
             .WithMany(d => d.Artifacts)
             .HasForeignKey(e => e.GalleryId);
         
+        modelBuilder.Entity<Artifact>(entity =>
+        {
+            entity.Property(a => a.Name)
+                .IsRequired()
+                .HasMaxLength(100);
+
+            entity.Property(a => a.Description)
+                .IsRequired()
+                .HasMaxLength(2000);
+
+            entity.Property(a => a.GalleryId)
+                .IsRequired();
+
+            entity.Property(a => a.Origin)
+                .HasMaxLength(100);
+
+            entity.Property(a => a.Period)
+                .HasMaxLength(100);
+
+            entity.Property(a => a.Civilization)
+                .HasMaxLength(100);
+        });
+
+        modelBuilder.Entity<Gallery>(entity =>
+        {
+            entity.Property(g => g.Name)
+                .IsRequired()
+                .HasMaxLength(100);
+            
+            entity.Property(g => g.Description)
+                .IsRequired()
+                .HasMaxLength(2000);
+            
+            entity.Property(g => g.GalleryId)
+                .IsRequired();
+        });
+
+        modelBuilder.Entity<Employee>(entity =>
+        {
+            entity.Property(e => e.FirstName)
+                .IsRequired()
+                .HasMaxLength(100);
+            
+            entity.Property(e => e.LastName)
+                .IsRequired()
+                .HasMaxLength(100);
+            
+            entity.Property(e => e.Title)
+                .IsRequired()
+                .HasMaxLength(100);
+
+            entity.Property(e => e.Department)
+                .IsRequired()
+                .HasMaxLength(100);
+
+            entity.Property(e => e.Salary)
+                .IsRequired();
+        });
+        
+        
         modelBuilder.Entity<EventModel>()
             .HasOne(e => e.Category)
             .WithMany(c => c.Events)
