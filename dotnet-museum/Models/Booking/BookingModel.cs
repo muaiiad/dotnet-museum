@@ -11,7 +11,7 @@ public class BookingModel
     public string CustomerPhone { get; set; }
     public int NumberOfTickets { get; set; }
     public decimal TotalPrice { get; set; }
-    public DateTime BookingDate { get; set; }
+    public DateTime BookingDate { get; set; } = DateTime.UtcNow;
     public ReservationType ReservationType { get; set; }
     
     public int EventId { get; set; }

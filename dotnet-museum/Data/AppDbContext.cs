@@ -1,4 +1,5 @@
-﻿using dotnet_museum.Models;
+﻿using System;
+using dotnet_museum.Models;
 using dotnet_museum.Models.Booking;
 using dotnet_museum.Models.MuseumEvents;
 using dotnet_museum.Models.TourismCompany;
@@ -102,7 +103,78 @@ public class AppDbContext : DbContext
             .HasOne(b => b.TourismCompany)
             .WithMany(c => c.Bookings)
             .HasForeignKey(b => b.TourismCompanyId);
-        
+
+        modelBuilder.Entity<EventModel>(entity =>
+        {
+            entity.Property(e => e.Title)
+                .IsRequired()
+                .HasMaxLength(100);
+            
+            entity.Property(e => e.Description)
+                .IsRequired()
+                .HasMaxLength(2000);
+            
+            entity.Property(e => e.Capacity)
+                .HasDefaultValue(10);
+
+            entity.Property(e => e.TicketPrice)
+                .IsRequired()
+                .HasPrecision(10, 2);
+
+            entity.Property(e => e.ImagePath)
+                .IsRequired();
+        });
+
+        modelBuilder.Entity<Category>(entity =>
+        {
+            entity.Property(e => e.Name)
+                .IsRequired()
+                .HasMaxLength(100);
+
+            entity.ToTable("Categories");
+        });
+
+        modelBuilder.Entity<BookingModel>(entity =>
+        {
+            entity.Property(e => e.CustomerName)
+                .IsRequired()
+                .HasMaxLength(100);
+
+            entity.Property(e => e.CustomerPhone)
+                .IsRequired()
+                .HasMaxLength(16);
+
+            entity.Property(e => e.NumberOfTickets)
+                .HasDefaultValue(1);
+
+            entity.Property(e => e.TotalPrice)
+                .HasPrecision(15, 2);
+            
+            entity.Property(e => e.ReservationType)
+                .HasDefaultValue(ReservationType.Regular);
+        });
+
+        modelBuilder.Entity<Company>(entity =>
+        {
+            entity.Property(e => e.RegistrationNumber)
+                .IsRequired();
+
+            entity.Property(e => e.Name)
+                .IsRequired()
+                .HasMaxLength(100);
+
+            entity.Property(e => e.Address)
+                .IsRequired()
+                .HasMaxLength(200);
+
+            entity.Property(e => e.Email)
+                .IsRequired()
+                .HasMaxLength(100);
+
+            entity.Property(e => e.DiscountPercentage)
+                .HasPrecision(5, 2);
+        });
+
     }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
