@@ -106,6 +106,7 @@ public class AppDbContext : DbContext
 
         modelBuilder.Entity<EventModel>(entity =>
         {
+            entity.HasKey(e => e.EventId);
             entity.Property(e => e.Title)
                 .IsRequired()
                 .HasMaxLength(100);
@@ -136,6 +137,7 @@ public class AppDbContext : DbContext
 
         modelBuilder.Entity<BookingModel>(entity =>
         {
+            entity.HasKey(e => e.BookingId);
             entity.Property(e => e.CustomerName)
                 .IsRequired()
                 .HasMaxLength(100);
@@ -156,6 +158,7 @@ public class AppDbContext : DbContext
 
         modelBuilder.Entity<Company>(entity =>
         {
+            
             entity.Property(e => e.RegistrationNumber)
                 .IsRequired();
 
@@ -180,7 +183,11 @@ public class AppDbContext : DbContext
     {
         // no connection string until we add a migration and update the database        
         optionsBuilder.UseSqlServer(
+            "Server=.\\SQLEXPRESS;Database=museum;Integrated Security=True;Encrypt=False;"
+            
         );
+
+
     }
     
 }
