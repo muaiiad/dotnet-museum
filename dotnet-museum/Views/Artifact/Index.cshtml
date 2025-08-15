@@ -1,0 +1,23 @@
+﻿@model IEnumerable<Artifact>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Artifacts</title>
+</head>
+<body>
+    <h1>Artifacts</h1>
+    @foreach (var artifact in Model)
+    {
+        <div>
+            <h2>@artifact.Name</h2>
+            <p>@artifact.Description</p>
+        </div>
+    }
+</body>
+</html>
