@@ -1,0 +1,62 @@
+﻿@model Artifact
+
+@{
+    Layout = null;
+}
+
+
+<h1>Create Artifact</h1>
+
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label asp-for="Name"></label><br/>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <hr>
+
+    <div class="form-group">
+        <label asp-for="Description"></label><br/>
+        <textarea asp-for="Description" class="form-control"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+
+    <hr>
+
+    <div class="form-group">
+        <label asp-for="Origin"></label><br/>
+        <input asp-for="Origin" class="form-control" />
+        <span asp-validation-for="Origin" class="text-danger"></span>
+    </div>
+
+    <hr>
+
+    <div class="form-group">
+        <label asp-for="Period"></label><br/>
+        <input asp-for="Period" class="form-control" />
+        <span asp-validation-for="Period" class="text-danger"></span>
+    </div>
+
+    <hr>
+
+    <div class="form-group">
+        <label asp-for="Civilization"></label><br/>
+        <input asp-for="Civilization" class="form-control" />
+        <span asp-validation-for="Civilization" class="text-danger"></span>
+    </div>
+
+    <hr>
+    
+    <div class="form-group">
+        <label asp-for="GalleryId">Gallery</label><br/>
+        <select asp-for="GalleryId" asp-items="@(ViewBag.Galleries)" class="form-control">
+            <option value="">-- Select Gallery --</option>
+        </select>
+        <span asp-validation-for="GalleryId" class="text-danger"></span>
+    </div>
+    
+    
+
+    <button type="submit" class="btn btn-primary">Create</button>
+</form>

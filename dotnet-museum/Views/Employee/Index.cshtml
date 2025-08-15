@@ -1,0 +1,25 @@
+﻿@model IEnumerable<Employee>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Employees</title>
+</head>
+<body>
+<h1>Employees</h1>
+@foreach (var employee in Model)
+{
+    <div>
+        <h2>@(employee.FirstName + " " + employee.LastName) </h2>
+        <p>@(employee.Title + " in department " + @employee.Department) </p>
+        <p>@employee.Salary</p>
+    </div>
+    <hr/>
+}
+</body>
+</html>

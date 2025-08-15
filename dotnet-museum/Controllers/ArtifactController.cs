@@ -1,6 +1,8 @@
 ﻿using dotnet_museum.Data;
 using dotnet_museum.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+
 namespace dotnet_museum.Controllers;
 
 public class ArtifactController : Controller
@@ -14,6 +16,9 @@ public class ArtifactController : Controller
     [HttpGet]
     public IActionResult Create()
     {
+        var galleries = _db.Galleries.ToList();
+
+        ViewBag.Galleries = new SelectList(galleries, "GalleryId", "Name");
         return View();
     }
 
@@ -21,6 +26,7 @@ public class ArtifactController : Controller
     [ValidateAntiForgeryToken]
     public IActionResult Create(Artifact artifact)
     {
+        
         if (ModelState.IsValid)
         {
             _db.Artifacts.Add(artifact);

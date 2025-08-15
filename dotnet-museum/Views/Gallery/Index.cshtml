@@ -1,0 +1,24 @@
+﻿@model IEnumerable<Gallery>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Galleries</title>
+</head>
+<body>
+<h1>Galleries</h1>
+@foreach (var gallery in Model)
+{
+    <div>
+        <h2>@gallery.Name</h2>
+        <p>@gallery.Description</p>
+    </div>
+    <hr/>
+}
+</body>
+</html>
