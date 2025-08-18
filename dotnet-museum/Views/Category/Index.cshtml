@@ -1,0 +1,45 @@
+﻿@model List<dotnet_museum.Models.MuseumEvents.Category>
+
+@{
+    ViewBag.Title = "Categories";
+}
+
+<div class="container">
+    <ul class="list-group list-group-flush">
+        @foreach (var category in @Model)
+        {
+            <li class="list-group-item">
+                <div class="d-flex align-items-center mb-2">
+                    <h3> @category.Name </h3>
+                    <img src="@Url.Content(category.IconPath)" class="rounded mx-auto d-block" alt="@category.Name" style="width: 80px; right: 10px; ">
+                </div>
+            </li>
+            
+            <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Title</th>
+                <th scope="col">Description</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var e in @category.Events)
+            {
+                <tr>
+                    <td>@e.EventId</td>
+                    <td>@e.Title</td>
+                    <td>@e.Description</td>
+                </tr>
+            }
+            </tbody>
+            </table>
+            }
+    </ul>
+</div>
+
+
+
+    
+    
+   

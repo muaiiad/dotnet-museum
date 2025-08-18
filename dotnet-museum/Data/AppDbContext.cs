@@ -87,22 +87,26 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<EventModel>()
             .HasOne(e => e.Category)
             .WithMany(c => c.Events)
-            .HasForeignKey(e => e.CategoryId);
+            .HasForeignKey(e => e.CategoryId)
+            .OnDelete(DeleteBehavior.SetNull);
         
         modelBuilder.Entity<EventModel>()
             .HasOne(e => e.Gallery)
             .WithMany(g => g.Events)
-            .HasForeignKey(e => e.GalleryId);
+            .HasForeignKey(e => e.GalleryId)
+            .OnDelete(DeleteBehavior.SetNull);
 
         modelBuilder.Entity<BookingModel>()
             .HasOne(b => b.Event)
             .WithMany(e => e.Bookings)
-            .HasForeignKey(b => b.EventId);
+            .HasForeignKey(b => b.EventId)
+            .OnDelete(DeleteBehavior.Cascade);
         
         modelBuilder.Entity<BookingModel>()
             .HasOne(b => b.TourismCompany)
             .WithMany(c => c.Bookings)
-            .HasForeignKey(b => b.TourismCompanyId);
+            .HasForeignKey(b => b.TourismCompanyId)
+            .OnDelete(DeleteBehavior.Restrict);
 
         modelBuilder.Entity<EventModel>(entity =>
         {

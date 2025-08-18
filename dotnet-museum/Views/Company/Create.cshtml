@@ -1,0 +1,52 @@
+﻿@model dotnet_museum.Models.TourismCompany.Company;
+
+@{
+    ViewBag.Title = "Create Company";
+}
+
+<h1>Create Company</h1>
+<form asp-action="Create" method="post">
+    <div class="mb-3">
+        <label asp-for="RegistrationNumber">Registration Number:</label>
+        <input asp-for="RegistrationNumber" class="form-control">
+        <span asp-validation-for="RegistrationNumber" class="text-danger"></span>
+    </div>
+    
+    <div class="mb-3">
+        <label asp-for="Name">Name:</label>
+        <input asp-for="Name" class="form-control">
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    
+    <div class="mb-3">
+        <label asp-for="Address">Address:</label>
+        <input asp-for="Address" class="form-control">
+        <span asp-validation-for="Address" class="text-danger"></span>
+    </div>
+    
+    <div class="mb-3">
+        <label asp-for="Email">Email:</label>
+        <input asp-for="Email" class="form-control">
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+    
+    <div class="mb-3">
+        <label asp-for="Phone">Phone Number:</label>
+        <input asp-for="Phone" class="form-control">
+        <span asp-validation-for="Phone" class="text-danger"></span>
+    </div>
+    
+    <div class="mb-3">
+        <label asp-for="MaxNumberOfTickets">Maximum Number Of Tickets:</label>
+        <input asp-for="MaxNumberOfTickets" class="form-control">
+        <span asp-validation-for="MaxNumberOfTickets" class="text-danger"></span>
+    </div>
+    
+    <div class="mb-3">
+        <label asp-for="DiscountPercentage">Discount Percentage:</label>
+        <input asp-for="DiscountPercentage" class="form-control">
+        <span asp-validation-for="DiscountPercentage" class="text-danger"></span>
+    </div>
+    
+    <button type="submit" class="btn btn-primary">Create Company</button>
+</form>

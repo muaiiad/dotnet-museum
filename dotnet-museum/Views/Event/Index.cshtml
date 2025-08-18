@@ -1,0 +1,44 @@
+﻿@model List<dotnet_museum.Models.MuseumEvents.EventModel>
+
+@{
+    ViewData["Title"] = "Events";
+}
+<h1>Events</h1>
+<br/>
+<div class="upcoming-events-container">
+    <h3>Upcoming Events</h3>
+        
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        @foreach (var e in Model.Where(events => events.EndDate > DateTime.Now))
+        {
+            <div class="card" style="width: 18rem;">
+                <img src="@e.ImagePath" class="card-img-top" alt="@e.Title">
+                <div class="card-body">
+                    <h5 class="card-title"> @e.Title </h5>
+                    <p class="card-text"> @e.Description </p>
+                    <a asp-action="Details" asp-route-id="@e.EventId" class="btn btn-primary">View Details</a>
+                </div>
+            </div>
+        }
+    </div>
+    <br/>
+        
+</div>
+<div class="previous-events-container">
+    <h3>Previous Events</h3>
+        
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        @foreach (var e in Model.Where(events => events.EndDate <= DateTime.Now))
+        {
+            <div class="card" style="width: 18rem;">
+                <img src="@e.ImagePath" class="card-img-top" alt="@e.Title">
+                <div class="card-body">
+                    <h5 class="card-title"> @e.Title </h5>
+                    <p class="card-text"> @e.Description </p>
+                    <a asp-action="Details" asp-route-id="@e.EventId" class="btn btn-primary">View Details</a>
+                </div>
+            </div>
+        }
+    </div>
+            
+</div>

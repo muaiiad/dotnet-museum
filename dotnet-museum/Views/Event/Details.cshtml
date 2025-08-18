@@ -1,0 +1,39 @@
+﻿@model dotnet_museum.Models.MuseumEvents.EventModel;
+
+@{
+    ViewData["Title"] = "Event";
+}
+
+<div class="card" style="width:100%;">
+    <img src="@Model.ImagePath" class="card-img-top" alt="@Model.Title">
+    <div class="card-body">
+        <h3 class="card-title">@Model.Title</h3>
+        <p class="card-text">@Model.Description</p>
+    </div>
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item">
+            <div style="display: flex; align-items: center">
+                <h6><strong>Category: </strong>@Model.Category.Name</h6>
+                <img src="@Model.Category.IconPath" style="align-self: end; width: 50px;"></img>
+            </div>
+        </li>
+        <li class="list-group-item"><strong>Location: </strong>@Model.Gallery.Name</li>
+        <li class="list-group-item"><strong>Ticket Price: </strong>@Model.TicketPrice</li>
+        <li class="list-group-item">
+            <div>
+                <h6><strong>Start Date: </strong></h6> @Model.StartDate <br>
+                <h6><strong>End Date: </strong></h6> @Model.EndDate
+            </div>
+        </li>
+    </ul>
+    <div class="card-body">
+        @if (@Model.EndDate <= DateTime.Now)
+        {
+            <button type="button" class="btn btn-secondary btn-sm" disabled>Ended</button>
+        }
+        else
+        {
+            <button type="button" class="btn btn-primary btn-sm">Book now!</button>
+        }
+    </div>
+</div>

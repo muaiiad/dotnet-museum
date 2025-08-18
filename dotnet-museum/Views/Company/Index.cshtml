@@ -1,0 +1,52 @@
+﻿@model List<dotnet_museum.Models.TourismCompany.Company>
+
+@{
+    ViewBag.Title = "Companies";
+}
+
+<div class="container">
+    <ul class="list-group list-group-flush">
+        @foreach (var company in @Model)
+        {
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Phone Number</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>@company.CompanyId</td>
+                    <td>@company.Name</td>
+                    <td>@company.Phone</td>
+                </tr>
+                </tbody>
+            </table>
+
+            <h6>Bookings Made by Company</h6>
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>Booking ID</th>
+                    <th>Event ID</th>
+                    <th>Booking Date</th>
+                    <th>Total Price</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var b in company.Bookings)
+                {
+                    <tr>
+                        <td>@b.BookingId</td>
+                        <td>@b.Event.EventId</td>
+                        <td>@b.BookingDate</td>
+                        <td>@b.TotalPrice</td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        }
+    </ul>
+</div>
