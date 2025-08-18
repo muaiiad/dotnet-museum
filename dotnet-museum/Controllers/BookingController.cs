@@ -79,4 +79,44 @@ public class BookingController : Controller
         }
         return Content("No bookings found.");
     }
+
+    [HttpGet]
+    public IActionResult Edit(int id)
+    {
+        var booking = _context.Bookings.FirstOrDefault(b => b.BookingId == id);
+        ViewBag.AllEvents = new SelectList(_context.Events, "EventId", "Title");
+        ViewBag.Companies = new SelectList(_context.Companies, "CompanyId", "Name");
+
+        if (booking == null)
+        {
+            return NotFound();
+        }
+        return View(booking);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public IActionResult Edit(BookingModel booking)
+    {
+        if (ModelState.IsValid)
+        {
+            _context.Attach(booking);
+            _context.Entry(booking).State = EntityState.Modified;
+            booking.Event = _context.Events.FirstOrDefault(e => e.EventId == booking.EventId);
+
+            if (booking.ReservationType == ReservationType.TourismCompany)
+            {
+                booking.TourismCompany =  _context.Companies.FirstOrDefault(c => c.CompanyId == booking.TourismCompanyId);
+            }
+            else
+            {
+                booking.TourismCompany = null;
+                booking.TourismCompanyId = null;
+            }
+            
+            _context.SaveChanges();
+            return RedirectToAction(nameof(Index));
+        }
+        return View(booking);
+    }
 }

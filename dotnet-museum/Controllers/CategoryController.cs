@@ -42,4 +42,28 @@ public class CategoryController : Controller
         
         return View(categories);
     }
+
+    [HttpGet]
+    public IActionResult Edit(int id)
+    {
+        var category = _context.Categories.FirstOrDefault(c => c.CategoryId == id);
+        if (category == null)
+        {
+            return NotFound();
+        }
+        return View(category);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public IActionResult Edit(Category category)
+    {
+        if (ModelState.IsValid)
+        {
+            _context.Categories.Update(category);
+            _context.SaveChanges();
+            return RedirectToAction(nameof(Index));
+        }
+        return View(category);
+    }
 }

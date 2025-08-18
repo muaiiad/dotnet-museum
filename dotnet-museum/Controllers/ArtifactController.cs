@@ -2,6 +2,7 @@
 using dotnet_museum.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 
 namespace dotnet_museum.Controllers;
 
@@ -50,5 +51,34 @@ public class ArtifactController : Controller
             .ToList();
             
         return View("Index", artifacts);
+    }
+
+    [HttpGet]
+    public IActionResult Edit(int id)
+    {
+        var artifact = _db.Artifacts.FirstOrDefault(a => a.Id == id);
+        ViewBag.Galleries = new SelectList(_db.Galleries, "GalleryId", "Name");
+
+        if (artifact == null)
+        {
+            return NotFound();
+        }
+        return View(artifact);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public IActionResult Edit(Artifact artifact)
+    {
+        if (ModelState.IsValid)
+        {
+            _db.Attach(artifact);
+            _db.Entry(artifact).State = EntityState.Modified;
+            artifact.Gallery = _db.Galleries.FirstOrDefault(g => g.GalleryId == artifact.GalleryId);
+
+            _db.SaveChanges();
+            return RedirectToAction(nameof(Index));
+        }
+        return View(artifact);
     }
 }

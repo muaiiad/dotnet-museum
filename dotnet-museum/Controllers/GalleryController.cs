@@ -39,5 +39,30 @@ namespace dotnet_museum.Controllers
 
             return View(galleries);
         }
+
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            var gallery = _db.Galleries.FirstOrDefault(g => g.GalleryId == id);
+            
+            if(gallery == null)
+            {
+                return NotFound();
+            }
+            return View(gallery);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(Gallery gallery)
+        {
+            if (ModelState.IsValid)
+            {
+                _db.Galleries.Update(gallery);
+                _db.SaveChanges();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(gallery);
+        }
     }
 }

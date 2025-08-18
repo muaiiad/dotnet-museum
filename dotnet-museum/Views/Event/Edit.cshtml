@@ -1,48 +1,51 @@
 ﻿@model dotnet_museum.Models.MuseumEvents.EventModel;
 
 @{
-    ViewData["Title"] = "Create Event";
+    ViewData["Title"] = "Edit Event";
 }
 
-<h1>Create Event</h1>
+<h1>Edit Event</h1>
 
-<form asp-action="Create" method="post">
+<form asp-action="Edit" asp-controller="Event" method="post">
+    
+    <input type="hidden" asp-for="EventId"/>
+    
     <div class="mb-3">
         <label asp-for="Title">Title:</label>
         <input asp-for="Title" class="form-control" placeholder="Title">
         <span asp-validation-for="Title" class="text-danger"></span>
     </div>
-    
+
     <div class="mb-3">
         <label asp-for="Description">Description:</label>
         <input asp-for="Description" type="text" class="form-control" id="floatingTextarea2" placeholder="Description" style="height: 100px">
         <span asp-validation-for="Description" class="text-danger"></span>
     </div>
-    
+
     <div class="mb-3">
         <label asp-for="Capacity">Capacity:</label>
         <input asp-for="Capacity" class="form-control" placeholder="Capacity">
         <span asp-validation-for="Capacity" class="text-danger"></span>
     </div>
-    
+
     <div class="mb-3">
         <label asp-for="TicketPrice">Ticket price:</label>
         <input asp-for="TicketPrice" class="form-control" placeholder="Ticket Price">
         <span asp-validation-for="TicketPrice" class="text-danger"></span>
     </div>
-    
+
     <div class="mb-3">
         <label asp-for="StartDate">Start Date:</label>
         <input asp-for="StartDate" class="form-control" type="datetime-local">
         <span asp-validation-for="StartDate" class="text-danger"></span>
     </div>
-    
+
     <div class="mb-3">
         <label asp-for="EndDate">End Date:</label>
         <input asp-for="EndDate" class="form-control" type="datetime-local">
         <span asp-validation-for="EndDate" class="text-danger"></span>
     </div>
-   
+
     <div class="mb-3">
         <label asp-for="ImagePath">Image Path:</label>
         <input asp-for="ImagePath" class="form-control">
@@ -53,11 +56,12 @@
         <label asp-for="CategoryId">Category:</label>
         <select class="form-select" asp-for="CategoryId" asp-items="ViewBag.Categories"></select>
     </div>
-    
+
     <div class="mb-3">
         <label asp-for="GalleryId">Location:</label>
         <select class="form-select" asp-for="GalleryId" asp-items="ViewBag.Galleries"></select>
     </div>
-   
-    <button type="submit" class="btn btn-primary">Create Event</button>
+
+    <button type="submit" class="btn btn-primary">Save Changes</button>
+    <a asp-action="Index" asp-controller="Event" class="btn btn-outline-secondary">Cancel</a>
 </form>

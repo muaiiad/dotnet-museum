@@ -38,5 +38,30 @@ namespace dotnet_museum.Controllers
             ViewBag.EmployeeCount = employees.Count; // Using ViewBag here
             return View(employees);
         }
+
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            var employee = _db.Employees.FirstOrDefault(e => e.Id == id);
+
+            if (employee == null)
+            {
+                return NotFound();
+            }
+            return View(employee);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(Employee employee)
+        {
+            if (ModelState.IsValid)
+            {
+                _db.Employees.Update(employee);
+                _db.SaveChanges();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(employee);
+        }
     }
 }

@@ -42,4 +42,29 @@ public class CompanyController : Controller
             
         return View(companies);
     }
+
+    [HttpGet]
+    public IActionResult Edit(int id)
+    {
+        var company = _context.Companies.FirstOrDefault(c => c.CompanyId == id);
+
+        if (company == null)
+        {
+            return NotFound();
+        }
+        return View(company);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public IActionResult Edit(Company company)
+    {
+        if (ModelState.IsValid)
+        {
+            _context.Companies.Update(company);
+            _context.SaveChanges();
+            return RedirectToAction(nameof(Index));
+        }
+        return View(company);
+    }
 }

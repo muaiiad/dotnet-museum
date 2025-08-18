@@ -1,0 +1,50 @@
+﻿@model dotnet_museum.Models.Artifact
+
+@{
+    ViewBag.Title = "Edit Artifact";
+}
+
+<h1>Edit Artifact</h1>
+
+<form asp-action="Edit" asp-controller="Artifact" method="post">
+    
+    <input type="hidden" asp-for="Id"/>
+    
+    <div class="mb-3">
+        <label asp-for="Name">Name:</label>
+        <input asp-for="Name" class="form-control">
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Description">Description:</label>
+        <input asp-for="Description" type="text" class="form-control" id="floatingTextarea2" placeholder="Description" style="height: 100px">
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Origin">Origin:</label>
+        <input asp-for="Origin" class="form-control">
+        <span asp-validation-for="Origin" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Period">Period:</label>
+        <input asp-for="Period" class="form-control">
+        <span asp-validation-for="Period" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Civilization">Civilization:</label>
+        <input asp-for="Civilization" class="form-control">
+        <span asp-validation-for="Civilization" class="text-danger"></span>
+    </div>
+    
+    <div class="mb-3">
+        <label asp-for="GalleryId">Gallery:</label>
+        <select class="form-select" asp-for="GalleryId" asp-items="ViewBag.Galleries"></select>
+    </div>
+    
+    <button type="submit" class="btn btn-primary">Save Changes</button>
+    <a asp-action="Index" asp-controller="Artifact" class="btn btn-outline-secondary">Cancel</a>
+</form>
