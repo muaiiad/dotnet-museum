@@ -1,1 +1,25 @@
-﻿
+﻿@model List<dotnet_museum.Models.Booking.BookingModel>
+
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Customer Name</th>
+        <th scope="col">Company</th>
+        <th scope="col">Date</th>
+        <th scope="col">Total</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var e in @Model)
+    {
+        <tr>
+            <td>@e.BookingId</td>
+            <td>@e.CustomerName</td>
+            <td>@(e.TourismCompany?.Name ?? "None")</td>
+            <td>@(e.BookingDate.ToString("dd MMM yyyy"))</td>
+            <td>@e.TotalPrice</td>
+        </tr>
+    }
+    </tbody>
+</table>

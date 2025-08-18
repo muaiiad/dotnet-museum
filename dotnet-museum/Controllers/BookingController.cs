@@ -28,26 +28,12 @@ public class BookingController : Controller
     [ValidateAntiForgeryToken]
     public IActionResult Book(BookingModel booking)
     {
-        var e = _context.Events.FirstOrDefault(e => e.EventId == booking.EventId);
-        if (e != null)
+        var associatedEvent = _context.Events.FirstOrDefault(e => e.EventId == booking.EventId);
+        if (associatedEvent != null)
         {
+            booking.Event = associatedEvent;
+            booking.TotalPrice = booking.NumberOfTickets * booking.Event.TicketPrice;
         }
-        if (ModelState.IsValid)
-        {
-            return View("ConfirmBooking", booking);
-        }
-        ViewBag.AllEvents = new SelectList(_context.Events, "EventId", "Title");
-        ViewBag.Companies = new SelectList(_context.Companies, "CompanyId", "Name");
-        return View(new BookingModel());
-    }
-
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public IActionResult ConfirmBooking(BookingModel booking)
-    {
-        booking.Event = _context.Events.FirstOrDefault(e => e.EventId == booking.EventId);
-        booking.TotalPrice = booking.NumberOfTickets * booking.Event.TicketPrice;
-        
         if (booking.ReservationType == ReservationType.TourismCompany)
         {
             booking.TourismCompany = _context.Companies.FirstOrDefault(c => c.CompanyId == booking.TourismCompanyId);
@@ -61,11 +47,18 @@ public class BookingController : Controller
             booking.TourismCompany = null;
             booking.TourismCompanyId = null;
         }
-        
-        _context.Bookings.Add(booking);
-        _context.SaveChanges();
-        return View(booking);
+        ModelState.Remove(nameof(booking.Event));
+        if (ModelState.IsValid)
+        {
+            _context.Bookings.Add(booking);
+            _context.SaveChanges();
+            return RedirectToAction("Index", new {name = booking.CustomerName});
+        }
+        // ViewBag.AllEvents = new SelectList(_context.Events, "EventId", "Title");
+        // ViewBag.Companies = new SelectList(_context.Companies, "CompanyId", "Name");
+        return View(new BookingModel());
     }
+
     
     public IActionResult Index(string name)
     {
@@ -73,9 +66,9 @@ public class BookingController : Controller
             .Include(b => b.Event)
             .Include(b => b.TourismCompany)
             .Where(b => b.CustomerName == name);
-        if (bookings.Count() > 0)
+        if (bookings.Any())
         {
-            return View(bookings);
+            return View(bookings.ToList());
         }
         return Content("No bookings found.");
     }
