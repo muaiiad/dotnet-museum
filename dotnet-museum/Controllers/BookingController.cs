@@ -31,7 +31,6 @@ public class BookingController : Controller
         var e = _context.Events.FirstOrDefault(e => e.EventId == booking.EventId);
         if (e != null)
         {
-            booking.TotalPrice = booking.NumberOfTickets * e.TicketPrice;
         }
         if (ModelState.IsValid)
         {
@@ -48,7 +47,7 @@ public class BookingController : Controller
     {
         booking.Event = _context.Events.FirstOrDefault(e => e.EventId == booking.EventId);
         booking.TourismCompany = _context.Companies.FirstOrDefault(c => c.CompanyId == booking.TourismCompanyId);
-
+        booking.TotalPrice = booking.NumberOfTickets * booking.Event.TicketPrice;
         _context.Bookings.Add(booking);
         _context.SaveChanges();
         return View(booking);
