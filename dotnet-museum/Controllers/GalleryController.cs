@@ -12,6 +12,15 @@ namespace dotnet_museum.Controllers
         {
             _db = db;
         }
+        
+        public IActionResult GetAllData()
+        {
+            return Ok(_db.Galleries.ToList());
+        }
+        public IActionResult GetById(int id)
+        {
+            return Ok(_db.Galleries.FirstOrDefault(a => a.GalleryId == id));
+        }
 
         [HttpGet]
         public IActionResult Create()

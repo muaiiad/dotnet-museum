@@ -14,6 +14,15 @@ public class CompanyController : Controller
     {
         _context = context;
     }
+    
+    public IActionResult GetAllData()
+    {
+        return Ok(_context.Companies.ToList());
+    }
+    public IActionResult GetById(int id)
+    {
+        return Ok(_context.Companies.FirstOrDefault(a => a.CompanyId == id));
+    }
 
     [HttpGet]
     public IActionResult Create()

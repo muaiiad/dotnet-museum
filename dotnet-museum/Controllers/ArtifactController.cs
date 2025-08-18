@@ -14,6 +14,15 @@ public class ArtifactController : Controller
     {
         _db = db;
     }
+
+    public IActionResult GetAllData()
+    {
+        return Ok(_db.Artifacts.ToList());
+    }
+    public IActionResult GetById(int id)
+    {
+        return Ok(_db.Artifacts.FirstOrDefault(a => a.Id == id));
+    }
     [HttpGet]
     public IActionResult Create()
     {

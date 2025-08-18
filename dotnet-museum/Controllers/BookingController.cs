@@ -15,6 +15,14 @@ public class BookingController : Controller
     {
         _context = context;
     }
+    public IActionResult GetAllData()
+    {
+        return Ok(_context.Bookings.ToList());
+    }
+    public IActionResult GetById(int id)
+    {
+        return Ok(_context.Bookings.FirstOrDefault(a => a.BookingId == id));
+    }
 
     [HttpGet]
     public IActionResult Book()

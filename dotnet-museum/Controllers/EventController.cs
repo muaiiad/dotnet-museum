@@ -14,6 +14,15 @@ public class EventController : Controller
     {
         _context = context;
     }
+    
+    public IActionResult GetAllData()
+    {
+        return Ok(_context.Events.ToList());
+    }
+    public IActionResult GetById(int id)
+    {
+        return Ok(_context.Events.FirstOrDefault(a => a.EventId == id));
+    }
 
     [HttpGet]
     public IActionResult Create()

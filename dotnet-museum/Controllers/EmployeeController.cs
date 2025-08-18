@@ -12,6 +12,15 @@ namespace dotnet_museum.Controllers
         {
             _db = db;
         }
+        
+        public IActionResult GetAllData()
+        {
+            return Ok(_db.Employees.ToList());
+        }
+        public IActionResult GetById(int id)
+        {
+            return Ok(_db.Employees.FirstOrDefault(a => a.Id == id));
+        }
 
         [HttpGet]
         public IActionResult Create()

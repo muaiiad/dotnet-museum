@@ -14,6 +14,15 @@ public class CategoryController : Controller
         _context = context;
     }
     
+    public IActionResult GetAllData()
+    {
+        return Ok(_context.Categories.ToList());
+    }
+    public IActionResult GetById(int id)
+    {
+        return Ok(_context.Categories.FirstOrDefault(a => a.CategoryId == id));
+    }
+    
     [HttpGet]
     public IActionResult Create()
     {
