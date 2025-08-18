@@ -91,22 +91,38 @@ public class BookingController : Controller
     [ValidateAntiForgeryToken]
     public IActionResult Edit(BookingModel booking)
     {
+        ModelState.Remove(nameof(booking.Event));
         if (ModelState.IsValid)
         {
-            _context.Attach(booking);
-            _context.Entry(booking).State = EntityState.Modified;
-            booking.Event = _context.Events.FirstOrDefault(e => e.EventId == booking.EventId);
+            // Fetch existing entity from DB
+            var existingBooking = _context.Bookings
+                .Include(b => b.Event)
+                .Include(b => b.TourismCompany)
+                .FirstOrDefault(b => b.BookingId == booking.BookingId);
 
-            if (booking.ReservationType == ReservationType.TourismCompany)
+            if (existingBooking == null) return NotFound();
+
+            // Update scalar properties
+            existingBooking.CustomerName = booking.CustomerName;
+            existingBooking.CustomerPhone = booking.CustomerPhone;
+            existingBooking.NumberOfTickets = booking.NumberOfTickets;
+            existingBooking.ReservationType = booking.ReservationType;
+            existingBooking.EventId = booking.EventId;
+
+            // Update navigation properties safely
+            existingBooking.Event = _context.Events.FirstOrDefault(e => e.EventId == booking.EventId);
+
+            if (booking.ReservationType == ReservationType.TourismCompany && booking.TourismCompanyId.HasValue)
             {
-                booking.TourismCompany =  _context.Companies.FirstOrDefault(c => c.CompanyId == booking.TourismCompanyId);
+                existingBooking.TourismCompany = _context.Companies.FirstOrDefault(c => c.CompanyId == booking.TourismCompanyId);
+                existingBooking.TourismCompanyId = booking.TourismCompanyId;
             }
             else
             {
-                booking.TourismCompany = null;
-                booking.TourismCompanyId = null;
+                existingBooking.TourismCompany = null;
+                existingBooking.TourismCompanyId = null;
             }
-            
+
             _context.SaveChanges();
             return RedirectToAction(nameof(Index));
         }
