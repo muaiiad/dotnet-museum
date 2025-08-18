@@ -15,11 +15,11 @@ public class EventModel
     public decimal TicketPrice { get; set; }
     public string ImagePath { get; set; }
     
-    public int CategoryId { get; set; }
-    public Category Category { get; set; }
+    public int? CategoryId { get; set; }
+    public Category? Category { get; set; }
 
     public ICollection<BookingModel> Bookings { get; set; } = [];
     
-    public int GalleryId { get; set; }
-    public Gallery Gallery { get; set; }
+    public int? GalleryId { get; set; }
+    public Gallery? Gallery { get; set; }
 }

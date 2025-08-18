@@ -1,6 +1,7 @@
 ﻿using dotnet_museum.Data;
 using dotnet_museum.Models.MuseumEvents;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace dotnet_museum.Controllers;
 
@@ -35,7 +36,10 @@ public class CategoryController : Controller
     
     public IActionResult Index()
     {
-        var categories = _context.Categories.ToList();
+        var categories = _context.Categories
+            .Include(c => c.Events)
+            .ToList();
+        
         return View(categories);
     }
 }
