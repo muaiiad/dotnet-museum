@@ -46,17 +46,22 @@ public class BookingController : Controller
     public IActionResult ConfirmBooking(BookingModel booking)
     {
         booking.Event = _context.Events.FirstOrDefault(e => e.EventId == booking.EventId);
+        booking.TotalPrice = booking.NumberOfTickets * booking.Event.TicketPrice;
+        
         if (booking.ReservationType == ReservationType.TourismCompany)
         {
             booking.TourismCompany = _context.Companies.FirstOrDefault(c => c.CompanyId == booking.TourismCompanyId);
+            if (booking.TourismCompany != null)
+            {
+                booking.TotalPrice *= (1 - (booking.TourismCompany.DiscountPercentage / 100));
+            }
         }
         else
         {
             booking.TourismCompany = null;
             booking.TourismCompanyId = null;
         }
-
-        booking.TotalPrice = booking.NumberOfTickets * booking.Event.TicketPrice;
+        
         _context.Bookings.Add(booking);
         _context.SaveChanges();
         return View(booking);
