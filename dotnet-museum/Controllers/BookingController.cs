@@ -41,6 +41,7 @@ public class BookingController : Controller
         {
             booking.Event = associatedEvent;
             booking.TotalPrice = booking.NumberOfTickets * booking.Event.TicketPrice;
+            associatedEvent.Capacity -= booking.NumberOfTickets;
         }
         if (booking.ReservationType == ReservationType.TourismCompany)
         {
@@ -99,7 +100,7 @@ public class BookingController : Controller
     [ValidateAntiForgeryToken]
     public IActionResult Edit(BookingModel booking)
     {
-        ModelState.Remove(nameof(booking.Event));
+        //ModelState.Remove(nameof(booking.Event));
         if (ModelState.IsValid)
         {
             // Fetch existing entity from DB
@@ -119,6 +120,8 @@ public class BookingController : Controller
 
             // Update navigation properties safely
             existingBooking.Event = _context.Events.FirstOrDefault(e => e.EventId == booking.EventId);
+            
+            
 
             if (booking.ReservationType == ReservationType.TourismCompany && booking.TourismCompanyId.HasValue)
             {
