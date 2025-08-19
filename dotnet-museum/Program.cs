@@ -16,6 +16,11 @@ namespace dotnet_museum
             // Add services to the container.
             builder.Services.AddControllersWithViews();
             builder.Services.AddDbContext<AppDbContext>();
+            builder.Services.AddControllers(options =>
+            {
+                options.Filters.Add<ExceptionHandlingFilter>();
+            });
+            builder.Services.AddLogging();
             
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<AppDbContext>()

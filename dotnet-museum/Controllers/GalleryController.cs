@@ -1,5 +1,6 @@
 ﻿using dotnet_museum.Data;
 using dotnet_museum.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace dotnet_museum.Controllers
@@ -22,12 +23,14 @@ namespace dotnet_museum.Controllers
             return Ok(_db.Galleries.FirstOrDefault(a => a.GalleryId == id));
         }
 
+        [Authorize]
         [HttpGet]
         public IActionResult Create()
         {
             return View();
         }
 
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create(Gallery gallery)
@@ -49,6 +52,7 @@ namespace dotnet_museum.Controllers
             return View(galleries);
         }
 
+        [Authorize]
         [HttpGet]
         public IActionResult Edit(int id)
         {
@@ -61,6 +65,7 @@ namespace dotnet_museum.Controllers
             return View(gallery);
         }
 
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Edit(Gallery gallery)

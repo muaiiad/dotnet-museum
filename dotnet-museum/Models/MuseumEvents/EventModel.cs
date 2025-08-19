@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using dotnet_museum.Models.Booking;
+using dotnet_museum.Models.CustomValidations;
 
 namespace dotnet_museum.Models.MuseumEvents;
 
@@ -10,6 +11,7 @@ public class EventModel
     public string Title { get; set; }
     public string Description { get; set; }
     public DateTime StartDate { get; set; }
+    [EventDateValidation]
     public DateTime EndDate { get; set; }
     public int Capacity { get; set; }
     public decimal TicketPrice { get; set; }

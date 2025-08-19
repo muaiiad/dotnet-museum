@@ -1,12 +1,14 @@
 ﻿using dotnet_museum.Data;
 using dotnet_museum.Models.Booking;
 using dotnet_museum.Models.TourismCompany;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace dotnet_museum.Controllers;
 
+[Authorize]
 public class BookingController : Controller
 {
     private readonly AppDbContext _context;
@@ -43,6 +45,7 @@ public class BookingController : Controller
         {
             booking.Event = associatedEvent;
             booking.TotalPrice = booking.NumberOfTickets * booking.Event.TicketPrice;
+            associatedEvent.Capacity -= booking.NumberOfTickets;
         }
         if (booking.ReservationType == ReservationType.TourismCompany)
         {
@@ -99,7 +102,7 @@ public class BookingController : Controller
     [ValidateAntiForgeryToken]
     public IActionResult Edit(BookingModel booking)
     {
-        ModelState.Remove(nameof(booking.Event));
+        //ModelState.Remove(nameof(booking.Event));
         if (ModelState.IsValid)
         {
             // Fetch existing entity from DB
@@ -119,6 +122,8 @@ public class BookingController : Controller
 
             // Update navigation properties safely
             existingBooking.Event = _context.Events.FirstOrDefault(e => e.EventId == booking.EventId);
+            
+            
 
             if (booking.ReservationType == ReservationType.TourismCompany && booking.TourismCompanyId.HasValue)
             {

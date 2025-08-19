@@ -1,5 +1,6 @@
 ﻿using dotnet_museum.Data;
 using dotnet_museum.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -23,6 +24,7 @@ public class ArtifactController : Controller
     {
         return Ok(_db.Artifacts.FirstOrDefault(a => a.Id == id));
     }
+    [Authorize]
     [HttpGet]
     public IActionResult Create()
     {
@@ -32,6 +34,7 @@ public class ArtifactController : Controller
         return View();
     }
 
+    [Authorize]
     [HttpPost]
     [ValidateAntiForgeryToken]
     public IActionResult Create(Artifact artifact)
@@ -62,6 +65,7 @@ public class ArtifactController : Controller
         return View("Index", artifacts);
     }
 
+    [Authorize]
     [HttpGet]
     public IActionResult Edit(int id)
     {
@@ -75,6 +79,7 @@ public class ArtifactController : Controller
         return View(artifact);
     }
 
+    [Authorize]
     [HttpPost]
     [ValidateAntiForgeryToken]
     public IActionResult Edit(Artifact artifact)

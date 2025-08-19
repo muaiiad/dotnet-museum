@@ -1,6 +1,7 @@
 ﻿using dotnet_museum.Data;
 using dotnet_museum.Models.MuseumEvents;
 using dotnet_museum.Models.TourismCompany;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -24,12 +25,14 @@ public class CompanyController : Controller
         return Ok(_context.Companies.FirstOrDefault(a => a.CompanyId == id));
     }
 
+    [Authorize]
     [HttpGet]
     public IActionResult Create()
     {
         return View();
     }
 
+    [Authorize]
     [HttpPost]
     [ValidateAntiForgeryToken]
     public IActionResult Create(Company company)
@@ -52,6 +55,7 @@ public class CompanyController : Controller
         return View(companies);
     }
 
+    [Authorize]
     [HttpGet]
     public IActionResult Edit(int id)
     {
@@ -64,6 +68,7 @@ public class CompanyController : Controller
         return View(company);
     }
 
+    [Authorize]
     [HttpPost]
     [ValidateAntiForgeryToken]
     public IActionResult Edit(Company company)

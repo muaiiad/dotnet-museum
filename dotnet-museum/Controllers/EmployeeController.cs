@@ -1,5 +1,6 @@
 ﻿using dotnet_museum.Data;
 using dotnet_museum.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace dotnet_museum.Controllers
@@ -22,12 +23,14 @@ namespace dotnet_museum.Controllers
             return Ok(_db.Employees.FirstOrDefault(a => a.Id == id));
         }
 
+        [Authorize]
         [HttpGet]
         public IActionResult Create()
         {
             return View();
         }
 
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create(Employee employee)
@@ -48,6 +51,7 @@ namespace dotnet_museum.Controllers
             return View(employees);
         }
 
+        [Authorize]
         [HttpGet]
         public IActionResult Edit(int id)
         {
@@ -60,6 +64,7 @@ namespace dotnet_museum.Controllers
             return View(employee);
         }
 
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Edit(Employee employee)
