@@ -1,0 +1,104 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@ViewData["Title"] - dotnet_museum</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-2 bg-light vh-100 p-3 border-end">
+                <h5>Admin Menu</h5>
+                <ul class="nav flex-column">
+                    <li class="nav-item"><a class="nav-link" asp-controller="Artifact" asp-action="Index">Artifacts</a></li>
+                    <li class="nav-item"><a class="nav-link" asp-controller="Gallery" asp-action="Index">Galleries</a></li>
+                    <li class="nav-item"><a class="nav-link" asp-controller="Event" asp-action="Index">Events</a></li>
+                    <li class="nav-item"><a class="nav-link" asp-controller="Company" asp-action="Index">Companies</a></li>
+                    <li class="nav-item"><a class="nav-link" asp-controller="Employee" asp-action="Index">Employees</a></li>
+                    <li class="nav-item"><a class="nav-link" asp-controller="Category" asp-action="Index">Categories</a></li>
+                </ul>
+            </div>
+            <div class="col-md-10">
+                <h2>@ViewData["Title"]</h2>
+                <div class="row g-4">
+                    <div class="col-md-4">
+                        <div class="card shadow-sm">
+                            <div class="card-body">
+                                <h5 class="card-title">Artifacts</h5>
+                                <p class="card-text">Add or edit museum artifacts.</p>
+                                <a class="btn btn-primary btn-sm" asp-controller="Artifact" asp-action="Create">Add Artifact</a>
+                                <a class="btn btn-secondary btn-sm" asp-controller="Artifact" asp-action="Index">Manage</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card shadow-sm">
+                            <div class="card-body">
+                                <h5 class="card-title">Galleries</h5>
+                                <p class="card-text">Add or edit galleries.</p>
+                                <a class="btn btn-primary btn-sm" asp-controller="Gallery" asp-action="Create">Add Gallery</a>
+                                <a class="btn btn-secondary btn-sm" asp-controller="Gallery" asp-action="Index">Manage</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card shadow-sm">
+                            <div class="card-body">
+                                <h5 class="card-title">Events</h5>
+                                <p class="card-text">Add or edit museum events.</p>
+                                <a class="btn btn-primary btn-sm" asp-controller="Event" asp-action="Create">Add Event</a>
+                                <a class="btn btn-secondary btn-sm" asp-controller="Event" asp-action="Index">Manage</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card shadow-sm">
+                            <div class="card-body">
+                                <h5 class="card-title">Companies</h5>
+                                <p class="card-text">Add or edit tourism companies.</p>
+                                <a class="btn btn-primary btn-sm" asp-controller="Company" asp-action="Create">Add Company</a>
+                                <a class="btn btn-secondary btn-sm" asp-controller="Company" asp-action="Index">Manage</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card shadow-sm">
+                            <div class="card-body">
+                                <h5 class="card-title">Employees</h5>
+                                <p class="card-text">Add or edit employees.</p>
+                                <a class="btn btn-primary btn-sm" asp-controller="Employee" asp-action="Create">Add Employee</a>
+                                <a class="btn btn-secondary btn-sm" asp-controller="Employee" asp-action="Index">Manage</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card shadow-sm">
+                            <div class="card-body">
+                                <h5 class="card-title">Categories</h5>
+                                <p class="card-text">Add or edit event categories.</p>
+                                <a class="btn btn-primary btn-sm" asp-controller="Category" asp-action="Create">Add Category</a>
+                                <a class="btn btn-secondary btn-sm" asp-controller="Category" asp-action="Index">Manage</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
