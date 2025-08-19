@@ -24,14 +24,14 @@ namespace dotnet_museum.Controllers
             return Ok(_repo.GetById(id));
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult Create()
         {
             return View();
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create(Employee employee)
@@ -51,7 +51,7 @@ namespace dotnet_museum.Controllers
             return View(employees);
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult Edit(int id)
         {
@@ -64,7 +64,7 @@ namespace dotnet_museum.Controllers
             return View(employee);
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Edit(Employee employee)

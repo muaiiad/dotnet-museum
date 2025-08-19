@@ -26,15 +26,14 @@ public class CompanyController : Controller
         return Ok(_repo.GetCompanyById(id));
     }
 
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     [HttpGet]
     public IActionResult Create()
     {
         return View();
     }
 
-    [Authorize]
-    [HttpPost]
+    [Authorize(Roles = "Admin")]    [HttpPost]
     [ValidateAntiForgeryToken]
     public IActionResult Create(Company company)
     {
@@ -52,7 +51,7 @@ public class CompanyController : Controller
         return View(companies);
     }
 
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     [HttpGet]
     public IActionResult Edit(int id)
     {
@@ -65,7 +64,7 @@ public class CompanyController : Controller
         return View(company);
     }
 
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     [HttpPost]
     [ValidateAntiForgeryToken]
     public IActionResult Edit(Company company)

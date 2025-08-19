@@ -25,14 +25,14 @@ public class CategoryController : Controller
         return Ok(_repo.GetById(id));
     }
     
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     [HttpGet]
     public IActionResult Create()
     {
         return View();
     }
-
-    [Authorize]
+    
+    [Authorize(Roles = "Admin")]
     [HttpPost]
     [ValidateAntiForgeryToken]
     public IActionResult Create(Category category)
@@ -53,7 +53,7 @@ public class CategoryController : Controller
         return View(categories);
     }
 
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     [HttpGet]
     public IActionResult Edit(int id)
     {
@@ -65,7 +65,7 @@ public class CategoryController : Controller
         return View(category);
     }
 
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     [HttpPost]
     [ValidateAntiForgeryToken]
     public IActionResult Edit(Category category)

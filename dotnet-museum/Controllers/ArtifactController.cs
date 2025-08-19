@@ -27,7 +27,7 @@ public class ArtifactController : Controller
     {
         return Ok(_artifactRepository.GetById(id));
     }
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     [HttpGet]
     public IActionResult Create()
     {
@@ -37,7 +37,7 @@ public class ArtifactController : Controller
         return View();
     }
 
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     [HttpPost]
     [ValidateAntiForgeryToken]
     public IActionResult Create(Artifact artifact)
@@ -65,7 +65,7 @@ public class ArtifactController : Controller
         return View("Index", artifacts);
     }
 
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     [HttpGet]
     public IActionResult Edit(int id)
     {
@@ -79,7 +79,7 @@ public class ArtifactController : Controller
         return View(artifact);
     }
 
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     [HttpPost]
     [ValidateAntiForgeryToken]
     public IActionResult Edit(Artifact artifact)

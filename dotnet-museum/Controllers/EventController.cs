@@ -30,7 +30,7 @@ public class EventController : Controller
         return Ok(_eventRepository.GetEventById(id));
     }
 
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     [HttpGet]
     public IActionResult Create()
     {
@@ -40,7 +40,7 @@ public class EventController : Controller
         return View();
     }
 
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     [HttpPost]
     [ValidateAntiForgeryToken]
     public IActionResult Create(EventModel model)
@@ -70,7 +70,7 @@ public class EventController : Controller
         return NotFound();
     }
 
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     [HttpGet]
     public IActionResult Edit(int id)
     {
@@ -85,7 +85,7 @@ public class EventController : Controller
         return View(ev);
     }
 
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     [HttpPost]
     [ValidateAntiForgeryToken]
     public IActionResult Edit(EventModel model)

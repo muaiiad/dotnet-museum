@@ -1,4 +1,5 @@
 ﻿using dotnet_museum.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 namespace dotnet_museum.Controllers;
@@ -16,13 +17,16 @@ public class RoleController : Controller
     {
         return View();
     }
-
+    
+    [Authorize(Roles = "Admin")]
     [HttpGet]
     public IActionResult Create()
     {
         return View();
     }
-
+    
+    
+    [Authorize(Roles = "Admin")]
     [HttpPost]
     public async Task<IActionResult> Create(RoleViewModel newRole)
     {
