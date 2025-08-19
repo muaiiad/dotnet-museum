@@ -71,6 +71,7 @@ namespace MVC_Session2.Controllers
                     if (found)
                     {
                         await _signInManager.SignInAsync(user, newUser.RememberMe);
+                        TempData["message"] = "Login Successful!";
                         return RedirectToAction("Index", "Home");
                     }
 
@@ -85,7 +86,7 @@ namespace MVC_Session2.Controllers
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
-            return View("Login");
+            return RedirectToAction("Index", "Home");
         }
     }
 }

@@ -2,8 +2,14 @@
     ViewData["Title"] = "Home";
 }
 
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-success">@TempData["Message"]</div>
+}
+
 <div class="container-fluid p-0">
     
+
     <section class="bg-dark text-light py-5 text-center">
         <div class="container">
             <h1 class="display-4 fw-bold">Welcome to the Dotnet Museum</h1>
@@ -11,7 +17,7 @@
             <a href="@Url.Action("Index", "Event")" class="btn btn-primary btn-lg mt-3">Explore Events</a>
         </div>
     </section>
-    
+
     <section class="py-5">
         <div class="container">
             <h2 class="text-center mb-5">Our Highlights</h2>
@@ -42,7 +48,7 @@
             </div>
         </div>
     </section>
-    
+
     <section class="bg-light py-5 text-center">
         <div class="container">
             <h2 class="mb-4">Plan Your Visit</h2>
