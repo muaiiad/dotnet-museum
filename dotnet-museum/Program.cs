@@ -1,5 +1,7 @@
 using dotnet_museum.Data;
+using dotnet_museum.Models;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -14,6 +16,10 @@ namespace dotnet_museum
             // Add services to the container.
             builder.Services.AddControllersWithViews();
             builder.Services.AddDbContext<AppDbContext>();
+            
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<AppDbContext>()
+                .AddDefaultTokenProviders();
 
             var app = builder.Build();
 
@@ -25,7 +31,7 @@ namespace dotnet_museum
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllerRoute(

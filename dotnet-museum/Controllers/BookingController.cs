@@ -36,6 +36,8 @@ public class BookingController : Controller
     [ValidateAntiForgeryToken]
     public IActionResult Book(BookingModel booking)
     {
+        ViewBag.AllEvents = new SelectList(_context.Events, "EventId", "Title");
+        ViewBag.Companies = new SelectList(_context.Companies, "CompanyId", "Name");
         var associatedEvent = _context.Events.FirstOrDefault(e => e.EventId == booking.EventId);
         if (associatedEvent != null)
         {
@@ -62,8 +64,6 @@ public class BookingController : Controller
             _context.SaveChanges();
             return RedirectToAction("Index", new {name = booking.CustomerName});
         }
-        // ViewBag.AllEvents = new SelectList(_context.Events, "EventId", "Title");
-        // ViewBag.Companies = new SelectList(_context.Companies, "CompanyId", "Name");
         return View(new BookingModel());
     }
 

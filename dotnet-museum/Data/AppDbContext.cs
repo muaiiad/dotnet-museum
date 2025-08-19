@@ -3,12 +3,18 @@ using dotnet_museum.Models;
 using dotnet_museum.Models.Booking;
 using dotnet_museum.Models.MuseumEvents;
 using dotnet_museum.Models.TourismCompany;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace dotnet_museum.Data;
 
-public class AppDbContext : DbContext
+public class AppDbContext : IdentityDbContext<ApplicationUser>
+
 {
+    public AppDbContext(DbContextOptions<AppDbContext> options)
+        : base(options) { }
+    
+    
     public DbSet<Artifact> Artifacts { get; set; }
     public DbSet<Gallery> Galleries { get; set; }
     public DbSet<Employee> Employees { get; set; }
@@ -19,6 +25,7 @@ public class AppDbContext : DbContext
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        base.OnModelCreating(modelBuilder);
         modelBuilder.Entity<Artifact>()
             .HasOne(e => e.Gallery)
             .WithMany(d => d.Artifacts)
