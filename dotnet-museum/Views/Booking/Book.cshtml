@@ -47,10 +47,39 @@
         <select class="form-select" asp-for="EventId" asp-items="ViewBag.AllEvents"></select>
     </div>
     
-    <div class="mb-3">
+    <div class="mb-3" id="companyField" style="display:none;">
         <label asp-for="TourismCompanyId">Company Name:</label>
-        <select class="form-select" asp-for="TourismCompanyId" asp-items="ViewBag.Companies"></select>
+        <select class="form-select" asp-for="TourismCompanyId"></select>
     </div>
    
     <button type="submit" class="btn btn-primary" asp-action="Book" asp-controller="Booking">Next</button>
 </form>
+
+@section Scripts
+{<script>
+    $(function () {
+        $("input[name='ReservationType']").on("change", function () {
+            if ($(this).val() === "TourismCompany") {
+                $.ajax({
+                    url: '@Url.Action("GetAllData", "Company")',
+                    type: 'GET',
+                    success: function (companies) {
+                        var dropdown = $("select[name='TourismCompanyId']");
+                        dropdown.empty();
+    
+                        $.each(companies, function (i, company) {
+                            dropdown.append(
+                                $("<option></option>").val(company.companyId).text(company.name)
+                            );
+                        });
+    
+                        $("#companyField").show();
+                    }
+                });
+            } else {
+                $("#companyField").hide();
+            }
+        });
+    });
+</script>
+}

@@ -2,6 +2,7 @@ using dotnet_museum.Data;
 using dotnet_museum.Models;
 using dotnet_museum.Repositories;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -29,6 +30,10 @@ namespace dotnet_museum
                 options.Filters.Add<ExceptionHandlingFilter>();
             });
             builder.Services.AddLogging();
+            
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<AppDbContext>()
+                .AddDefaultTokenProviders();
 
             var app = builder.Build();
 
@@ -40,7 +45,7 @@ namespace dotnet_museum
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllerRoute(
