@@ -1,12 +1,14 @@
 ﻿using dotnet_museum.Data;
 using dotnet_museum.Models.Booking;
 using dotnet_museum.Models.TourismCompany;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace dotnet_museum.Controllers;
 
+[Authorize]
 public class BookingController : Controller
 {
     private readonly AppDbContext _context;

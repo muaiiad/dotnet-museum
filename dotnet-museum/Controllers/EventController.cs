@@ -1,5 +1,6 @@
 ﻿using dotnet_museum.Data;
 using dotnet_museum.Models.MuseumEvents;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -24,6 +25,7 @@ public class EventController : Controller
         return Ok(_context.Events.FirstOrDefault(a => a.EventId == id));
     }
 
+    [Authorize]
     [HttpGet]
     public IActionResult Create()
     {
@@ -33,6 +35,7 @@ public class EventController : Controller
         return View();
     }
 
+    [Authorize]
     [HttpPost]
     [ValidateAntiForgeryToken]
     public IActionResult Create(EventModel model)
@@ -66,6 +69,7 @@ public class EventController : Controller
         return NotFound();
     }
 
+    [Authorize]
     [HttpGet]
     public IActionResult Edit(int id)
     {
@@ -80,6 +84,7 @@ public class EventController : Controller
         return View(ev);
     }
 
+    [Authorize]
     [HttpPost]
     [ValidateAntiForgeryToken]
     public IActionResult Edit(EventModel model)

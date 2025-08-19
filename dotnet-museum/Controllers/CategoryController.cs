@@ -1,5 +1,6 @@
 ﻿using dotnet_museum.Data;
 using dotnet_museum.Models.MuseumEvents;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -23,12 +24,14 @@ public class CategoryController : Controller
         return Ok(_context.Categories.FirstOrDefault(a => a.CategoryId == id));
     }
     
+    [Authorize]
     [HttpGet]
     public IActionResult Create()
     {
         return View();
     }
 
+    [Authorize]
     [HttpPost]
     [ValidateAntiForgeryToken]
     public IActionResult Create(Category category)
@@ -52,6 +55,7 @@ public class CategoryController : Controller
         return View(categories);
     }
 
+    [Authorize]
     [HttpGet]
     public IActionResult Edit(int id)
     {
@@ -63,6 +67,7 @@ public class CategoryController : Controller
         return View(category);
     }
 
+    [Authorize]
     [HttpPost]
     [ValidateAntiForgeryToken]
     public IActionResult Edit(Category category)

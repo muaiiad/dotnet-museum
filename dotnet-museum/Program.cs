@@ -1,4 +1,5 @@
 using dotnet_museum.Data;
+using dotnet_museum.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -14,6 +15,11 @@ namespace dotnet_museum
             // Add services to the container.
             builder.Services.AddControllersWithViews();
             builder.Services.AddDbContext<AppDbContext>();
+            builder.Services.AddControllers(options =>
+            {
+                options.Filters.Add<ExceptionHandlingFilter>();
+            });
+            builder.Services.AddLogging();
 
             var app = builder.Build();
 
