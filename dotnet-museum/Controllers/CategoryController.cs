@@ -1,5 +1,6 @@
 ﻿using dotnet_museum.Data;
 using dotnet_museum.Models.MuseumEvents;
+using dotnet_museum.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -8,20 +9,20 @@ namespace dotnet_museum.Controllers;
 
 public class CategoryController : Controller
 {
-    private readonly AppDbContext _context;
+    private readonly ICategoryRepository _repo;
 
-    public CategoryController(AppDbContext context)
+    public CategoryController(ICategoryRepository repo)
     {
-        _context = context;
+        _repo = repo;
     }
     
     public IActionResult GetAllData()
     {
-        return Ok(_context.Categories.ToList());
+        return Ok(_repo.GetCategories());
     }
     public IActionResult GetById(int id)
     {
-        return Ok(_context.Categories.FirstOrDefault(a => a.CategoryId == id));
+        return Ok(_repo.GetById(id));
     }
     
     [Authorize]
@@ -38,8 +39,7 @@ public class CategoryController : Controller
     {
         if (ModelState.IsValid)
         {
-            _context.Categories.Add(category);
-            _context.SaveChanges();
+            _repo.CreateCategory(category);
             return RedirectToAction(nameof(Index));
         }
 
@@ -48,9 +48,7 @@ public class CategoryController : Controller
     
     public IActionResult Index()
     {
-        var categories = _context.Categories
-            .Include(c => c.Events)
-            .ToList();
+        var categories = _repo.ListCategories();
         
         return View(categories);
     }
@@ -59,7 +57,7 @@ public class CategoryController : Controller
     [HttpGet]
     public IActionResult Edit(int id)
     {
-        var category = _context.Categories.FirstOrDefault(c => c.CategoryId == id);
+        var category = _repo.GetById(id);
         if (category == null)
         {
             return NotFound();
@@ -74,8 +72,7 @@ public class CategoryController : Controller
     {
         if (ModelState.IsValid)
         {
-            _context.Categories.Update(category);
-            _context.SaveChanges();
+            _repo.UpdateCategory(category);
             return RedirectToAction(nameof(Index));
         }
         return View(category);

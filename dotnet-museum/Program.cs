@@ -1,5 +1,6 @@
 using dotnet_museum.Data;
 using dotnet_museum.Models;
+using dotnet_museum.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -13,6 +14,14 @@ namespace dotnet_museum
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
+            builder.Services.AddScoped<IArtifactRepository, ArtifactRepository>();
+            builder.Services.AddScoped<IBookingRepository, BookingRepository>();
+            builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+            builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
+            builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            builder.Services.AddScoped<IEventRepository, EventRepository>();
+            builder.Services.AddScoped<IGalleryRepository, GalleryRepository>();
+            
             builder.Services.AddControllersWithViews();
             builder.Services.AddDbContext<AppDbContext>();
             builder.Services.AddControllers(options =>

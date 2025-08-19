@@ -1,5 +1,6 @@
 ﻿using dotnet_museum.Data;
 using dotnet_museum.Models;
+using dotnet_museum.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,20 +8,20 @@ namespace dotnet_museum.Controllers
 {
     public class GalleryController : Controller
     {
-        private readonly AppDbContext _db;
+        private readonly IGalleryRepository _repo;
 
-        public GalleryController(AppDbContext db)
+        public GalleryController(IGalleryRepository repo)
         {
-            _db = db;
+            _repo = repo;
         }
         
         public IActionResult GetAllData()
         {
-            return Ok(_db.Galleries.ToList());
+            return Ok(_repo.GetAll());
         }
         public IActionResult GetById(int id)
         {
-            return Ok(_db.Galleries.FirstOrDefault(a => a.GalleryId == id));
+            return Ok(_repo.GetById(id));
         }
 
         [Authorize]
@@ -37,8 +38,7 @@ namespace dotnet_museum.Controllers
         {
             if (ModelState.IsValid)
             {
-                _db.Galleries.Add(gallery);
-                _db.SaveChanges();
+                _repo.CreateGallery(gallery);
                 return RedirectToAction(nameof(Index));
             }
             return View(gallery);
@@ -46,7 +46,7 @@ namespace dotnet_museum.Controllers
 
         public IActionResult Index()
         {
-            var galleries = _db.Galleries.ToList();
+            var galleries = _repo.GetAll();
             ViewBag.galleryCount = galleries.Count();
 
             return View(galleries);
@@ -56,7 +56,7 @@ namespace dotnet_museum.Controllers
         [HttpGet]
         public IActionResult Edit(int id)
         {
-            var gallery = _db.Galleries.FirstOrDefault(g => g.GalleryId == id);
+            var gallery = _repo.GetById(id);
             
             if(gallery == null)
             {
@@ -72,8 +72,7 @@ namespace dotnet_museum.Controllers
         {
             if (ModelState.IsValid)
             {
-                _db.Galleries.Update(gallery);
-                _db.SaveChanges();
+                _repo.UpdateGallery(gallery);
                 return RedirectToAction(nameof(Index));
             }
             return View(gallery);

@@ -1,5 +1,6 @@
 ﻿using dotnet_museum.Data;
 using dotnet_museum.Models;
+using dotnet_museum.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,20 +8,20 @@ namespace dotnet_museum.Controllers
 {
     public class EmployeeController : Controller
     {
-        private readonly AppDbContext _db;
+        private readonly IEmployeeRepository _repo;
 
-        public EmployeeController(AppDbContext db)
+        public EmployeeController(IEmployeeRepository repo)
         {
-            _db = db;
+            _repo =  repo;
         }
         
         public IActionResult GetAllData()
         {
-            return Ok(_db.Employees.ToList());
+            return Ok(_repo.GetAll());
         }
         public IActionResult GetById(int id)
         {
-            return Ok(_db.Employees.FirstOrDefault(a => a.Id == id));
+            return Ok(_repo.GetById(id));
         }
 
         [Authorize]
@@ -37,8 +38,7 @@ namespace dotnet_museum.Controllers
         {
             if (ModelState.IsValid)
             {
-                _db.Employees.Add(employee);
-                _db.SaveChanges();
+                _repo.CreateEmployee(employee);
                 return RedirectToAction(nameof(Index));
             }
             return View(employee);
@@ -46,7 +46,7 @@ namespace dotnet_museum.Controllers
 
         public IActionResult Index()
         {
-            var employees = _db.Employees.ToList();
+            var employees = _repo.GetAll();
             ViewBag.EmployeeCount = employees.Count; // Using ViewBag here
             return View(employees);
         }
@@ -55,7 +55,7 @@ namespace dotnet_museum.Controllers
         [HttpGet]
         public IActionResult Edit(int id)
         {
-            var employee = _db.Employees.FirstOrDefault(e => e.Id == id);
+            var employee = _repo.GetById(id);
 
             if (employee == null)
             {
@@ -71,8 +71,7 @@ namespace dotnet_museum.Controllers
         {
             if (ModelState.IsValid)
             {
-                _db.Employees.Update(employee);
-                _db.SaveChanges();
+                _repo.UpdateEmployee(employee);
                 return RedirectToAction(nameof(Index));
             }
             return View(employee);

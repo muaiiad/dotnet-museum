@@ -1,5 +1,6 @@
 ﻿using dotnet_museum.Data;
 using dotnet_museum.Models.MuseumEvents;
+using dotnet_museum.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -9,28 +10,32 @@ namespace dotnet_museum.Controllers;
 
 public class EventController : Controller
 {
-    private readonly AppDbContext  _context;
+    private readonly IEventRepository _eventRepository;
+    private readonly ICategoryRepository _categoryRepository;
+    private readonly IGalleryRepository _galleryRepository;
 
-    public EventController(AppDbContext context)
+    public EventController(IEventRepository eventRepository, ICategoryRepository categoryRepository, IGalleryRepository galleryRepository)
     {
-        _context = context;
+        _eventRepository = eventRepository;
+        _categoryRepository = categoryRepository;
+        _galleryRepository = galleryRepository;
     }
     
     public IActionResult GetAllData()
     {
-        return Ok(_context.Events.ToList());
+        return Ok(_eventRepository.GetAllEvents());
     }
     public IActionResult GetById(int id)
     {
-        return Ok(_context.Events.FirstOrDefault(a => a.EventId == id));
+        return Ok(_eventRepository.GetEventById(id));
     }
 
     [Authorize]
     [HttpGet]
     public IActionResult Create()
     {
-        ViewBag.Categories = new SelectList(_context.Categories, "CategoryId", "Name");
-        ViewBag.Galleries = new SelectList(_context.Galleries, "GalleryId", "Name");
+        ViewBag.Categories = new SelectList(_categoryRepository.GetCategories(), "CategoryId", "Name");
+        ViewBag.Galleries = new SelectList(_galleryRepository.GetAll(), "GalleryId", "Name");
         
         return View();
     }
@@ -42,8 +47,7 @@ public class EventController : Controller
     {
         if (ModelState.IsValid)
         {
-            _context.Events.Add(model);
-            _context.SaveChanges();
+            _eventRepository.CreateEvent(model);
             return RedirectToAction(nameof(Index));
         }
         return View(model);
@@ -51,16 +55,13 @@ public class EventController : Controller
     
     public IActionResult Index()
     {
-        var events = _context.Events.ToList();
+        var events = _eventRepository.GetAllEvents();
         return View(events);
     }
 
     public IActionResult Details(int id)
     {
-        var ev = _context.Events
-            .Include(e => e.Category)
-            .Include(e => e.Gallery)
-            .FirstOrDefault(e => e.EventId == id);
+        var ev = _eventRepository.GetDetails(id);
         
         if (ev != null)
         {
@@ -73,9 +74,9 @@ public class EventController : Controller
     [HttpGet]
     public IActionResult Edit(int id)
     {
-        var ev = _context.Events.FirstOrDefault(e => e.EventId == id);
-        ViewBag.Categories = new SelectList(_context.Categories, "CategoryId", "Name");
-        ViewBag.Galleries = new SelectList(_context.Galleries, "GalleryId", "Name");
+        var ev = _eventRepository.GetEventById(id);
+        ViewBag.Categories = new SelectList(_categoryRepository.GetCategories(), "CategoryId", "Name");
+        ViewBag.Galleries = new SelectList(_galleryRepository.GetAll(), "GalleryId", "Name");
 
         if (ev == null)
         {
@@ -91,12 +92,7 @@ public class EventController : Controller
     {
         if (ModelState.IsValid)
         {
-            _context.Attach(model);
-            _context.Entry(model).State = EntityState.Modified;
-            model.Category = _context.Categories.FirstOrDefault(c => c.CategoryId == model.CategoryId);
-            model.Gallery = _context.Galleries.FirstOrDefault(g => g.GalleryId == model.GalleryId);
-            
-            _context.SaveChanges();
+            _eventRepository.UpdateEvent(model);
             return RedirectToAction(nameof(Index));
         }
         return View(model);

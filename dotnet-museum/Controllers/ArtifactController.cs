@@ -1,5 +1,6 @@
 ﻿using dotnet_museum.Data;
 using dotnet_museum.Models;
+using dotnet_museum.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -9,26 +10,28 @@ namespace dotnet_museum.Controllers;
 
 public class ArtifactController : Controller
 {
-    private readonly AppDbContext _db;
+    private readonly IArtifactRepository _artifactRepository;
+    private readonly IGalleryRepository _galleryRepository;
 
-    public ArtifactController(AppDbContext db)
+    public ArtifactController(IArtifactRepository artifactRepository, IGalleryRepository galleryRepository)
     {
-        _db = db;
+        _artifactRepository  = artifactRepository;
+        _galleryRepository  = galleryRepository;
     }
 
     public IActionResult GetAllData()
     {
-        return Ok(_db.Artifacts.ToList());
+        return Ok(_artifactRepository.GetArtifacts());
     }
     public IActionResult GetById(int id)
     {
-        return Ok(_db.Artifacts.FirstOrDefault(a => a.Id == id));
+        return Ok(_artifactRepository.GetById(id));
     }
     [Authorize]
     [HttpGet]
     public IActionResult Create()
     {
-        var galleries = _db.Galleries.ToList();
+        var galleries = _galleryRepository.GetAll();
 
         ViewBag.Galleries = new SelectList(galleries, "GalleryId", "Name");
         return View();
@@ -42,15 +45,14 @@ public class ArtifactController : Controller
         
         if (ModelState.IsValid)
         {
-            _db.Artifacts.Add(artifact);
-            _db.SaveChanges();
+            _artifactRepository.CreateArtifact(artifact);
             return RedirectToAction(nameof(Index));
         }
         return View(artifact);
     }
     public IActionResult Index()
     {
-        var artifacts = _db.Artifacts.ToList();
+        var artifacts = _artifactRepository.GetArtifacts();
         ViewData["artifactCount"] = artifacts.Count();
         
         return View(artifacts);
@@ -58,9 +60,7 @@ public class ArtifactController : Controller
 
     public IActionResult ByGallery(int galleryId)
     {
-        var artifacts = _db.Artifacts
-            .Where(e => e.GalleryId == galleryId)
-            .ToList();
+        var artifacts = _artifactRepository.GetArtifactsByGallery(galleryId);
             
         return View("Index", artifacts);
     }
@@ -69,8 +69,8 @@ public class ArtifactController : Controller
     [HttpGet]
     public IActionResult Edit(int id)
     {
-        var artifact = _db.Artifacts.FirstOrDefault(a => a.Id == id);
-        ViewBag.Galleries = new SelectList(_db.Galleries, "GalleryId", "Name");
+        var artifact = _artifactRepository.GetById(id);
+        ViewBag.Galleries = new SelectList(_galleryRepository.GetAll(), "GalleryId", "Name");
 
         if (artifact == null)
         {
@@ -86,11 +86,7 @@ public class ArtifactController : Controller
     {
         if (ModelState.IsValid)
         {
-            _db.Attach(artifact);
-            _db.Entry(artifact).State = EntityState.Modified;
-            artifact.Gallery = _db.Galleries.FirstOrDefault(g => g.GalleryId == artifact.GalleryId);
-
-            _db.SaveChanges();
+            _artifactRepository.UpdateArtifact(artifact);
             return RedirectToAction(nameof(Index));
         }
         return View(artifact);

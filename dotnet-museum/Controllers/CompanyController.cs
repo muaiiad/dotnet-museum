@@ -1,6 +1,7 @@
 ﻿using dotnet_museum.Data;
 using dotnet_museum.Models.MuseumEvents;
 using dotnet_museum.Models.TourismCompany;
+using dotnet_museum.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -9,20 +10,20 @@ namespace dotnet_museum.Controllers;
 
 public class CompanyController : Controller
 {
-    private readonly AppDbContext _context;
-
-    public CompanyController(AppDbContext context)
+    private readonly ICompanyRepository _repo;
+    
+    public CompanyController(ICompanyRepository repo)
     {
-        _context = context;
+        _repo = repo;
     }
     
     public IActionResult GetAllData()
     {
-        return Ok(_context.Companies.ToList());
+        return Ok(_repo.GetCompanies());
     }
     public IActionResult GetById(int id)
     {
-        return Ok(_context.Companies.FirstOrDefault(a => a.CompanyId == id));
+        return Ok(_repo.GetCompanyById(id));
     }
 
     [Authorize]
@@ -39,18 +40,14 @@ public class CompanyController : Controller
     {
         if (ModelState.IsValid)
         {
-            _context.Companies.Add(company);
-            _context.SaveChanges();
+            _repo.CreateCompany(company);
             return RedirectToAction(nameof(Index));
         }
         return View(company);
     }
     public IActionResult Index()
     {
-        var companies = _context.Companies
-            .Include(c => c.Bookings)
-            .ThenInclude(b => b.Event)
-            .ToList();
+        var companies = _repo.GetCompanies();
             
         return View(companies);
     }
@@ -59,7 +56,7 @@ public class CompanyController : Controller
     [HttpGet]
     public IActionResult Edit(int id)
     {
-        var company = _context.Companies.FirstOrDefault(c => c.CompanyId == id);
+        var company = _repo.GetCompanyById(id);
 
         if (company == null)
         {
@@ -75,8 +72,7 @@ public class CompanyController : Controller
     {
         if (ModelState.IsValid)
         {
-            _context.Companies.Update(company);
-            _context.SaveChanges();
+            _repo.UpdateCompany(company);
             return RedirectToAction(nameof(Index));
         }
         return View(company);
