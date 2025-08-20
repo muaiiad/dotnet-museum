@@ -13,7 +13,7 @@ public class EventDateValidation : ValidationAttribute
         if (ev.StartDate >= ev.EndDate)
         {
             return new ValidationResult(
-                "Start Date must be smaller than End Date.",
+                "Start date must be before end date.",
                 new[] { nameof(EventModel.EndDate) }
             );
         }

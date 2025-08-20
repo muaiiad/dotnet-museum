@@ -38,12 +38,38 @@ public class ArtifactRepository : IArtifactRepository
         return artifacts;
     }
 
+    public void UpdateArtifact(int id, Artifact artifact)
+    {
+        var existingArtifact = _context.Artifacts.FirstOrDefault(a => a.Id == id);
+        if (existingArtifact == null) return;
+        
+        existingArtifact.Name = artifact.Name;
+        existingArtifact.Description = artifact.Description;
+        existingArtifact.Civilization = artifact.Civilization;
+        existingArtifact.Origin = artifact.Origin;
+        existingArtifact.Period = artifact.Period;
+        existingArtifact.GalleryId = artifact.GalleryId;
+        existingArtifact.Gallery = artifact.Gallery;
+        
+
+        _context.SaveChanges();
+    }
     public void UpdateArtifact(Artifact artifact)
     {
         _context.Attach(artifact);
         _context.Entry(artifact).State = EntityState.Modified;
         artifact.Gallery = _context.Galleries.FirstOrDefault(g => g.GalleryId == artifact.GalleryId);
 
+        _context.SaveChanges();
+    }
+    public void DeleteArtifact(int id)
+    {
+        var artifact = _context.Artifacts.FirstOrDefault(a => a.Id == id);
+        if (artifact == null)
+        {
+            return;
+        }
+        _context.Artifacts.Remove(artifact);
         _context.SaveChanges();
     }
 }

@@ -8,5 +8,7 @@ public interface IArtifactRepository
     Artifact? GetById(int id);
     void CreateArtifact(Artifact artifact);
     List<Artifact> GetArtifactsByGallery(int galleryId);
+    void UpdateArtifact(int id, Artifact artifact);
     void UpdateArtifact(Artifact artifact);
+    void DeleteArtifact(int id);
 }

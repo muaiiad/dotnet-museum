@@ -14,11 +14,11 @@ public class TicketsValidation : ValidationAttribute
         
         if(booking.NumberOfTickets > ev.Capacity)
         {
-            return new ValidationResult("The number of tickets exceed the capacity of the event");
+            return new ValidationResult("The number of tickets exceed the capacity of the event.");
         }
         else if (booking.NumberOfTickets < 1)
         {
-            return new ValidationResult("The number of tickets must be greater than or equal to 1");
+            return new ValidationResult("The number of tickets must be greater than or equal to 1.");
         }
         return ValidationResult.Success;
     }

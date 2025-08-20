@@ -1,3 +1,4 @@
+using Asp.Versioning;
 using dotnet_museum.Data;
 using dotnet_museum.Models;
 using dotnet_museum.Repositories;
@@ -34,6 +35,13 @@ namespace dotnet_museum
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<AppDbContext>()
                 .AddDefaultTokenProviders();
+            
+            builder.Services.AddApiVersioning(options =>
+            {
+                options.DefaultApiVersion = new ApiVersion(1, 0); 
+                options.AssumeDefaultVersionWhenUnspecified = true;
+                options.ReportApiVersions = true; 
+            });
 
             var app = builder.Build();
 
