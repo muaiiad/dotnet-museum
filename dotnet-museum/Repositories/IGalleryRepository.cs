@@ -8,4 +8,5 @@ public interface IGalleryRepository
     Gallery? GetById(int id);
     void CreateGallery(Gallery gallery);
     void UpdateGallery(Gallery gallery);
+    void DeleteGallery(Gallery gallery);
 }

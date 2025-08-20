@@ -33,4 +33,9 @@ public class GalleryRepository : IGalleryRepository
         _context.Galleries.Update(gallery);
         _context.SaveChanges();
     }
+
+    public void DeleteGallery(Gallery gallery)
+    {
+        _context.Galleries.Remove(gallery);
+    }
 }

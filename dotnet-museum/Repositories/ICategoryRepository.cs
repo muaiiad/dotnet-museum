@@ -9,4 +9,5 @@ public interface ICategoryRepository
     void CreateCategory(Category category);
     List<Category> ListCategories();
     void UpdateCategory(Category category);
+    void DeleteCategory(Category category);
 }
