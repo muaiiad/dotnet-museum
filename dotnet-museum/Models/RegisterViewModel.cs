@@ -1,9 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc;
 
 namespace dotnet_museum.Models
 {
     public class RegisterViewModel
     {
+        [Remote(action: "IsUsernameAvailable", controller: "Register")]
         public string UserName { get; set; }
 
         [DataType(DataType.Password)]
